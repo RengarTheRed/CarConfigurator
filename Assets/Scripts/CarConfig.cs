@@ -61,7 +61,7 @@ public class CarConfig : MonoBehaviour
     void LoadData()
     {
         //Populate Paint Array
-        Paint blue = new Paint("Blue", 5);
+        Paint blue = new Paint("Blue", 0);
         Paint green = new Paint("Green", 15);
         Paint red = new Paint("Red", 25);
         paints.Add(blue);
@@ -69,17 +69,17 @@ public class CarConfig : MonoBehaviour
         paints.Add(red);
 
         //Populate Engine Array
-        Engine lowSpec = new Engine("Rusted", 50, -2, -2);
-        Engine midSpec = new Engine("Efficiency", 150, 0, 0);
-        Engine highSpec = new Engine("Performance", 250, 3, 3);
+        Engine lowSpec = new Engine("Rusted", 50, 30, 12, 8);
+        Engine midSpec = new Engine("Efficiency", 125, 45, 18, 12);
+        Engine highSpec = new Engine("Performance", 250, 60, 25, 15);
         engines.Add(lowSpec);
         engines.Add(midSpec);
         engines.Add(highSpec);
 
         //Populate Wheel Array
-        Wheel square = new Wheel("Square", 0, -5, -5, -10);
-        Wheel oval = new Wheel("Oval", 20, -2, -1, -3);
-        Wheel round = new Wheel("Round", 50, 2, 2, 5);
+        Wheel square = new Wheel("Square", 50, 8, 8, 30);
+        Wheel oval = new Wheel("Oval", 125, 12, 12, 45);
+        Wheel round = new Wheel("Round", 250, 15, 15, 60);
         wheels.Add(square);
         wheels.Add(oval);
         wheels.Add(round);
@@ -87,16 +87,31 @@ public class CarConfig : MonoBehaviour
 
 
         //Populate Car Array
-        Car buggati = new Car("Bugatti", 500, 10, 10, 5, red, highSpec, round);
-        Car fordfocus = new Car("Ford Focus", 200, 5, 5, 10, blue, midSpec, oval);
+        Car corsa = new Car("Corsa", 150, 12, 30, 12, blue, lowSpec, square);
+        Car focus = new Car("Ford Focus", 250, 18, 45, 18, blue, midSpec, oval);
+        Car buggati = new Car("Bugatti", 500, 25, 60, 25, red, highSpec, round);
+        cars.Add(corsa);
+        cars.Add(focus);
         cars.Add(buggati);
-        cars.Add(fordfocus);
 
 
         PopulateNames();
         PopulatePaint();
         PopulateEngines();
         PopulateWheels();
+
+        //Vehicles Checks
+        Debug.Log(buggati.CheckTopSpeed());
+        Debug.Log(buggati.CheckAcceleration());
+        Debug.Log(buggati.CheckHandling());
+
+        Debug.Log(focus.CheckTopSpeed());
+        Debug.Log(focus.CheckAcceleration());
+        Debug.Log(focus.CheckHandling());
+
+        Debug.Log(corsa.CheckTopSpeed());
+        Debug.Log(corsa.CheckAcceleration());
+        Debug.Log(corsa.CheckHandling());
     }
     //Function for clearing dropdown boxes
     void ClearAllOptions()
@@ -204,7 +219,7 @@ public class CarConfig : MonoBehaviour
     //Function for calculating cost of order
     void CheckCost(int index)
     {
-        totalCost.SetText("Total Cost �" + cars[carSelector.value].CheckCost());
+        totalCost.SetText("Total Cost £" + cars[carSelector.value].CheckCost());
         TopSpeedSlider.SetValueWithoutNotify(cars[carSelector.value].CheckTopSpeed());
         AccelerationSlider.SetValueWithoutNotify(cars[carSelector.value].CheckAcceleration());
         HandlingSlider.SetValueWithoutNotify(cars[carSelector.value].CheckHandling());
@@ -289,12 +304,13 @@ class Paint : Component
 }
 class Engine : Component
 {
-    public Engine(string n, float c, float tSpeed, float aOffset)
+    public Engine(string n, float c, float tSpeed, float aOffset, float hOffset)
     {
         name = n;
         cost = c;
         tSpeedOffset = tSpeed;
         accelOffset = aOffset;
+        handlingOffset = hOffset;
     }
 }
 class Wheel : Component
