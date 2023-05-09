@@ -204,7 +204,7 @@ public class CarConfig : MonoBehaviour
     //Function for calculating cost of order
     void CheckCost(int index)
     {
-        totalCost.SetText("Total Cost £" + cars[carSelector.value].CheckCost());
+        totalCost.SetText("Total Cost ï¿½" + cars[carSelector.value].CheckCost());
         TopSpeedSlider.SetValueWithoutNotify(cars[carSelector.value].CheckTopSpeed());
         AccelerationSlider.SetValueWithoutNotify(cars[carSelector.value].CheckAcceleration());
         HandlingSlider.SetValueWithoutNotify(cars[carSelector.value].CheckHandling());
