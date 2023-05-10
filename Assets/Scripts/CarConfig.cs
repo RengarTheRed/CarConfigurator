@@ -57,6 +57,8 @@ public class CarConfig : MonoBehaviour
         //Preps UI elements; clears/sets dropdown boxes, load car and updates money texts
         ClearAllOptions();
         LoadData();
+        UpdateOptions();
+
         UpdateModel(0);
         CheckCost(0);
         SetMoney();
@@ -88,6 +90,7 @@ public class CarConfig : MonoBehaviour
         paints.Add(green);
         paints.Add(red);
 
+
         //Populate Engine Array
         Engine lowSpec = new Engine("Rusted", 50, 30, 12, 8);
         Engine midSpec = new Engine("Efficiency", 125, 45, 18, 12);
@@ -113,12 +116,6 @@ public class CarConfig : MonoBehaviour
         cars.Add(corsa);
         cars.Add(focus);
         cars.Add(buggati);
-
-
-        PopulateNames();
-        PopulatePaint();
-        PopulateEngines();
-        PopulateWheels();
     }
 
     //Function for clearing dropdown boxes
@@ -131,6 +128,13 @@ public class CarConfig : MonoBehaviour
     }
 
     //Functions for populating the selection dropdown boxes
+    void UpdateOptions()
+    {
+        PopulateNames();
+        PopulatePaint();
+        PopulateEngines();
+        PopulateWheels();
+    }
     void PopulateNames()
     {
         List<string> carNames = new List<string>();
@@ -150,6 +154,7 @@ public class CarConfig : MonoBehaviour
             paintColours.Add(paint.name);
         }
 
+        //Sets Dropdown
         carPaint.AddOptions(paintColours);
     }
 
@@ -162,6 +167,7 @@ public class CarConfig : MonoBehaviour
             engineOptions.Add(en.name);
         }
 
+        //Sets Dropdown
         carEngine.AddOptions(engineOptions);
     }
 
@@ -174,6 +180,7 @@ public class CarConfig : MonoBehaviour
             wheelOptions.Add(wh.name);
         }
 
+        //Sets Dropdown
         carWheel.AddOptions(wheelOptions);
     }
 
@@ -183,7 +190,7 @@ public class CarConfig : MonoBehaviour
 #region UI Events
 
     /// Functions for when dropdown boxes values are changed
-    /// Name, Paint etc
+    /// Car, Paint etc
     private void OnCarChanged(int index)
     {
         carPaint.SetValueWithoutNotify(paints.IndexOf(cars[index].colour));
@@ -242,7 +249,8 @@ public class CarConfig : MonoBehaviour
     }
     bool UpdateModelPaint(int newCarIndex)
     {
-        carObjects[newCarIndex].GetComponentInChildren<Renderer>().sharedMaterial = mats[carPaint.value];
+        int offset = (newCarIndex) * 3;
+        carObjects[newCarIndex].GetComponentInChildren<Renderer>().sharedMaterial = mats[carPaint.value+offset];
         return true;
     }
     #endregion

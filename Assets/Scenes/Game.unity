@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22597032}
   m_LocalRotation: {x: 0, y: 0.9659258, z: -0.2588191, w: 0}
-  m_LocalPosition: {x: 0, y: 2, z: 6}
+  m_LocalPosition: {x: 0, y: 4, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2592,7 +2592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428031097}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.65, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4819,7 +4819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8e0fb51d685213d49a6833e21ae5d422, type: 3}
       propertyPath: m_Name
-      value: LowSpecCar
+      value: CarLowSpec
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e0fb51d685213d49a6833e21ae5d422, type: 3}
@@ -6717,7 +6717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c2ebfbb730132504a869145bded8fe48, type: 3}
       propertyPath: m_Name
-      value: HighSpecCar
+      value: CarHighSpec
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c2ebfbb730132504a869145bded8fe48, type: 3}
       propertyPath: m_IsActive
@@ -7356,7 +7356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 213ec5d986a55c8438c1b6c7ae6db99c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 213ec5d986a55c8438c1b6c7ae6db99c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7396,7 +7396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 213ec5d986a55c8438c1b6c7ae6db99c, type: 3}
       propertyPath: m_Name
-      value: MedSpecCar
+      value: CarMidSpec
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 213ec5d986a55c8438c1b6c7ae6db99c, type: 3}
       propertyPath: m_IsActive
@@ -8873,11 +8873,14 @@ MonoBehaviour:
   - {fileID: 325356412}
   - {fileID: 437470193}
   mats:
+  - {fileID: 2100000, guid: fe7ded6ad9147a947afbae52ec99c750, type: 2}
+  - {fileID: 2100000, guid: 24d79e87b7a0bb54598e681dce968403, type: 2}
+  - {fileID: 2100000, guid: 28281ccb948a9734bb55b3eef3e72cac, type: 2}
   - {fileID: 2100000, guid: 59173f83299edfb4991428ae58c069e8, type: 2}
   - {fileID: 2100000, guid: 8a43f8a29a6366c42ab8a789ede769ae, type: 2}
   - {fileID: 2100000, guid: d8b122b3a8469984e8d7d27451a1af4d, type: 2}
-  - {fileID: 2100000, guid: 13c4b8d18f1ccd24a9e40caeba265e57, type: 2}
   - {fileID: 2100000, guid: eb5559b0c3079a142935f13243515477, type: 2}
+  - {fileID: 2100000, guid: 13c4b8d18f1ccd24a9e40caeba265e57, type: 2}
   - {fileID: 2100000, guid: db1d520a894c56042af3598f2f5b7f27, type: 2}
 --- !u!4 &1743613477
 Transform:

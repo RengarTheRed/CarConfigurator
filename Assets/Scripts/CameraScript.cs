@@ -8,7 +8,7 @@ public class CameraScript : MonoBehaviour
 {
     //Auto Rotate Variables
     public Slider CameraSlider;
-    float cameraSpeed = .1f, toApply =.05f;
+    float cameraSpeed = 1f, toApply =.05f;
     bool bAutoRotate = true;
 
     //Drag Camera Variables
