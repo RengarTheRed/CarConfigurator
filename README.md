@@ -22,5 +22,6 @@ Code is made purely by me with some inspiration from Tutorials / Googling soluti
 
 ### Assets
 - PlayStation styled cars (inc materials and car sounds) https://ggbot.itch.io/psx-style-cars
+- Floor Texture (https://screamingbrainstudios.itch.io/tiny-texture-pack-2)
 - UI Click sound (PENDING)
 - BGM (PENDING)

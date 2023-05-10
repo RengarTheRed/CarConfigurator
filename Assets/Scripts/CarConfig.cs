@@ -13,13 +13,14 @@ public class CarConfig : MonoBehaviour
 #region Variables
 
     //Variables
-    //Dropdown Boxes & Money / Buy Button
+    //Dropdown Boxes & Money / Buy & Quit buttons
     public TMP_Dropdown carSelector;
     public TMP_Dropdown carPaint;
     public TMP_Dropdown carEngine;
     public TMP_Dropdown carWheel;
-    public Button btnBuy;
     public TMP_Text playerMoney;
+    public Button btnBuy;
+    public Button btnQuit;
 
     //Stat Panel
     public TMP_Text totalCost;
@@ -45,6 +46,7 @@ public class CarConfig : MonoBehaviour
 
     #region Initialise
 
+    //Awake set frame limit to 60 as higher is unnecessary for this
     private void Awake()
     {
         QualitySettings.vSyncCount = 1;
@@ -58,25 +60,35 @@ public class CarConfig : MonoBehaviour
         ClearAllOptions();
         LoadData();
         UpdateOptions();
-
         UpdateModel(0);
-        CheckCost(0);
+        CheckCar(0);
         SetMoney();
 
-        //Sets Listeners for UI
+        //Sets Listeners for Dropdown Boxes
         carSelector.onValueChanged.AddListener(OnCarChanged);
-        carSelector.onValueChanged.AddListener(CheckCost);
+        carSelector.onValueChanged.AddListener(CheckCar);
 
         carPaint.onValueChanged.AddListener(OnPaintChanged);
-        carPaint.onValueChanged.AddListener(CheckCost);
+        carPaint.onValueChanged.AddListener(CheckCar);
 
         carEngine.onValueChanged.AddListener(OnEngineChanged);
-        carEngine.onValueChanged.AddListener(CheckCost);
+        carEngine.onValueChanged.AddListener(CheckCar);
 
         carWheel.onValueChanged.AddListener(OnWheelChanged);
-        carWheel.onValueChanged.AddListener(CheckCost);
+        carWheel.onValueChanged.AddListener(CheckCar);
 
+        //Listeners for Buttons
         btnBuy.onClick.AddListener(OnBuyClick);
+        btnQuit.onClick.AddListener(QuitButton);
+    }
+
+    //Update for checking if esc clicked to quit
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            QuitButton();
+        }
     }
 
     /// Functions for setting up the boxes
@@ -89,7 +101,6 @@ public class CarConfig : MonoBehaviour
         paints.Add(blue);
         paints.Add(green);
         paints.Add(red);
-
 
         //Populate Engine Array
         Engine lowSpec = new Engine("Rusted", 50, 30, 12, 8);
@@ -106,8 +117,6 @@ public class CarConfig : MonoBehaviour
         wheels.Add(square);
         wheels.Add(oval);
         wheels.Add(round);
-
-
 
         //Populate Car Array
         Car corsa = new Car("Corsa", 150, 12, 30, 12, blue, lowSpec, square);
@@ -135,6 +144,7 @@ public class CarConfig : MonoBehaviour
         PopulateEngines();
         PopulateWheels();
     }
+
     void PopulateNames()
     {
         List<string> carNames = new List<string>();
@@ -219,6 +229,11 @@ public class CarConfig : MonoBehaviour
         GetCurrentCar().wheel = wheels[index];
     }
 
+    private void QuitButton()
+    {
+        Application.Quit();
+    }
+
     //Buy button checks if can afford and commits purchase
     private void OnBuyClick()
     {
@@ -256,8 +271,9 @@ public class CarConfig : MonoBehaviour
     #endregion
 
 #region Utilities for Checking Car & updating costs
-    //Function for calculating cost of order
-    void CheckCost(int index)
+
+    //Function for calculating cost of order and stats (int input since listener requires it)
+    void CheckCar(int index)
     {
         totalCost.SetText("Total Cost £" + GetCurrentCar().CheckCost());
         TopSpeedSlider.SetValueWithoutNotify(GetCurrentCar().CheckTopSpeed());
