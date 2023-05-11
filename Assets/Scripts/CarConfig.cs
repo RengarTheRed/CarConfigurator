@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class CarConfig : MonoBehaviour
 {
+
 #region Variables
 
     //Variables
@@ -45,9 +46,9 @@ public class CarConfig : MonoBehaviour
     //Audio Variables
     public List<AudioClip> audioClips;
 
-    #endregion
+#endregion
 
-    #region Initialise
+#region Initialise
 
     //Awake set frame limit to 60 as higher is unnecessary for this
     private void Awake()
@@ -272,7 +273,6 @@ public class CarConfig : MonoBehaviour
         CarEngine.SetValueWithoutNotify(engines.IndexOf(cars[newCarIndex].engine));
         CarWheel.SetValueWithoutNotify(wheels.IndexOf(cars[newCarIndex].wheel));
 
-
         UpdateModelPaint(newCarIndex);
         return true;
     }
@@ -301,7 +301,6 @@ public class CarConfig : MonoBehaviour
     private void SetMoney()
     {
         PlayerMoney.SetText("£ " + money);
-
     }
 
     // Not 100% if this is more efficient but it looks cleaner than having
