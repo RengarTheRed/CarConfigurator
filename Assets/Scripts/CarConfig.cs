@@ -14,16 +14,16 @@ public class CarConfig : MonoBehaviour
 
     //Variables
     //Dropdown Boxes & Money / Buy & Quit buttons
-    public TMP_Dropdown carSelector;
-    public TMP_Dropdown carPaint;
-    public TMP_Dropdown carEngine;
-    public TMP_Dropdown carWheel;
-    public TMP_Text playerMoney;
-    public Button btnBuy;
-    public Button btnQuit;
+    public TMP_Dropdown CarSelector;
+    public TMP_Dropdown CarPaint;
+    public TMP_Dropdown CarEngine;
+    public TMP_Dropdown CarWheel;
+    public TMP_Text PlayerMoney;
+    public Button BtnBuy;
+    public Button BtnQuit;
 
     //Stat Panel
-    public TMP_Text totalCost;
+    public TMP_Text TotalCost;
     public Slider TopSpeedSlider;
     public Slider AccelerationSlider;
     public Slider HandlingSlider;
@@ -41,6 +41,9 @@ public class CarConfig : MonoBehaviour
 
     //Player Variables
     float money = 2000f;
+
+    //Audio Variables
+    public List<AudioClip> audioClips;
 
     #endregion
 
@@ -65,21 +68,21 @@ public class CarConfig : MonoBehaviour
         SetMoney();
 
         //Sets Listeners for Dropdown Boxes
-        carSelector.onValueChanged.AddListener(OnCarChanged);
-        carSelector.onValueChanged.AddListener(CheckCar);
+        CarSelector.onValueChanged.AddListener(OnCarChanged);
+        CarSelector.onValueChanged.AddListener(CheckCar);
 
-        carPaint.onValueChanged.AddListener(OnPaintChanged);
-        carPaint.onValueChanged.AddListener(CheckCar);
+        CarPaint.onValueChanged.AddListener(OnPaintChanged);
+        CarPaint.onValueChanged.AddListener(CheckCar);
 
-        carEngine.onValueChanged.AddListener(OnEngineChanged);
-        carEngine.onValueChanged.AddListener(CheckCar);
+        CarEngine.onValueChanged.AddListener(OnEngineChanged);
+        CarEngine.onValueChanged.AddListener(CheckCar);
 
-        carWheel.onValueChanged.AddListener(OnWheelChanged);
-        carWheel.onValueChanged.AddListener(CheckCar);
+        CarWheel.onValueChanged.AddListener(OnWheelChanged);
+        CarWheel.onValueChanged.AddListener(CheckCar);
 
         //Listeners for Buttons
-        btnBuy.onClick.AddListener(OnBuyClick);
-        btnQuit.onClick.AddListener(QuitButton);
+        BtnBuy.onClick.AddListener(OnBuyClick);
+        BtnQuit.onClick.AddListener(QuitButton);
     }
 
     //Update for checking if esc clicked to quit
@@ -91,13 +94,14 @@ public class CarConfig : MonoBehaviour
         }
     }
 
-    /// Functions for setting up the boxes
+    // Functions for setting up the boxes
+    // If using external file replace with StreamWriter/Reader and learn how to obfuscate
     void LoadData()
     {
         //Populate Paint Array
         Paint blue = new Paint("Blue", 0);
-        Paint green = new Paint("Green", 15);
-        Paint red = new Paint("Red", 25);
+        Paint green = new Paint("Green", 0);
+        Paint red = new Paint("Red", 0);
         paints.Add(blue);
         paints.Add(green);
         paints.Add(red);
@@ -130,10 +134,10 @@ public class CarConfig : MonoBehaviour
     //Function for clearing dropdown boxes
     void ClearAllOptions()
     {
-        carSelector.ClearOptions();
-        carPaint.ClearOptions();
-        carEngine.ClearOptions();
-        carWheel.ClearOptions();
+        CarSelector.ClearOptions();
+        CarPaint.ClearOptions();
+        CarEngine.ClearOptions();
+        CarWheel.ClearOptions();
     }
 
     //Functions for populating the selection dropdown boxes
@@ -152,7 +156,7 @@ public class CarConfig : MonoBehaviour
         {
             carNames.Add(car.name);
         }
-        carSelector.AddOptions(carNames);
+        CarSelector.AddOptions(carNames);
     }
 
     void PopulatePaint()
@@ -165,7 +169,7 @@ public class CarConfig : MonoBehaviour
         }
 
         //Sets Dropdown
-        carPaint.AddOptions(paintColours);
+        CarPaint.AddOptions(paintColours);
     }
 
     void PopulateEngines()
@@ -178,7 +182,7 @@ public class CarConfig : MonoBehaviour
         }
 
         //Sets Dropdown
-        carEngine.AddOptions(engineOptions);
+        CarEngine.AddOptions(engineOptions);
     }
 
     void PopulateWheels()
@@ -191,21 +195,20 @@ public class CarConfig : MonoBehaviour
         }
 
         //Sets Dropdown
-        carWheel.AddOptions(wheelOptions);
+        CarWheel.AddOptions(wheelOptions);
     }
-
 
 #endregion
 
 #region UI Events
 
-    /// Functions for when dropdown boxes values are changed
-    /// Car, Paint etc
+    // Functions for when dropdown boxes values are changed
+    // Car, Paint etc
     private void OnCarChanged(int index)
     {
-        carPaint.SetValueWithoutNotify(paints.IndexOf(cars[index].colour));
-        carEngine.SetValueWithoutNotify(engines.IndexOf(cars[index].engine));
-        carWheel.SetValueWithoutNotify(wheels.IndexOf(cars[index].wheel));
+        CarPaint.SetValueWithoutNotify(paints.IndexOf(cars[index].colour));
+        CarEngine.SetValueWithoutNotify(engines.IndexOf(cars[index].engine));
+        CarWheel.SetValueWithoutNotify(wheels.IndexOf(cars[index].wheel));
 
         if(UpdateModel(index))
         {
@@ -242,40 +245,53 @@ public class CarConfig : MonoBehaviour
         {
             money = tmpMoney;
             SetMoney();
+            PlaySound(0);
         }
+        else
+        {
+            PlaySound(1);
+        }
+    }
+
+    private void PlaySound(int toPlay)
+    {
+        AudioSource.PlayClipAtPoint(audioClips[toPlay], carObjects[0].gameObject.transform.position, .4f);
     }
 
 #endregion
 
 #region PreviewModel
+
     //Functions for updating the preview model
     //Chose to use booleans since it can then verify if success in performing action
     bool UpdateModel(int newCarIndex)
     {
         carObjects[activeCar].SetActive(false);
         carObjects[newCarIndex].SetActive(true);
-        carPaint.SetValueWithoutNotify(paints.IndexOf(cars[newCarIndex].colour));
-        carEngine.SetValueWithoutNotify(engines.IndexOf(cars[newCarIndex].engine));
-        carWheel.SetValueWithoutNotify(wheels.IndexOf(cars[newCarIndex].wheel));
+        CarPaint.SetValueWithoutNotify(paints.IndexOf(cars[newCarIndex].colour));
+        CarEngine.SetValueWithoutNotify(engines.IndexOf(cars[newCarIndex].engine));
+        CarWheel.SetValueWithoutNotify(wheels.IndexOf(cars[newCarIndex].wheel));
 
 
         UpdateModelPaint(newCarIndex);
         return true;
     }
+
     bool UpdateModelPaint(int newCarIndex)
     {
         int offset = (newCarIndex) * 3;
-        carObjects[newCarIndex].GetComponentInChildren<Renderer>().sharedMaterial = mats[carPaint.value+offset];
+        carObjects[newCarIndex].GetComponentInChildren<Renderer>().sharedMaterial = mats[CarPaint.value+offset];
         return true;
     }
-    #endregion
+
+#endregion
 
 #region Utilities for Checking Car & updating costs
 
     //Function for calculating cost of order and stats (int input since listener requires it)
     void CheckCar(int index)
     {
-        totalCost.SetText("Total Cost £" + GetCurrentCar().CheckCost());
+        TotalCost.SetText("Total Cost £" + GetCurrentCar().CheckCost());
         TopSpeedSlider.SetValueWithoutNotify(GetCurrentCar().CheckTopSpeed());
         AccelerationSlider.SetValueWithoutNotify(GetCurrentCar().CheckAcceleration());
         HandlingSlider.SetValueWithoutNotify(GetCurrentCar().CheckHandling());
@@ -284,22 +300,25 @@ public class CarConfig : MonoBehaviour
     //Sets the Money UI Text
     private void SetMoney()
     {
-        playerMoney.SetText("£ " + money);
+        PlayerMoney.SetText("£ " + money);
 
     }
 
     // Not 100% if this is more efficient but it looks cleaner than having
-    // cars[carselector.value] many times over
+    // cars[CarSelector.value] many times over
     private Car GetCurrentCar()
     {
-        return cars[carSelector.value];
+        return cars[CarSelector.value];
     }
+
  #endregion
+
 }
 
-
-
-//Classes used for the project since I required names and costs
+#region Car/Component Classes
+//Classes used for the project
+//Car has all components but could easily make variants that have more/less
+//Components have attributes offsets
 class Car
 {
     //Base Variables
@@ -334,28 +353,30 @@ class Car
         //Update Cost
         CheckCost();
     }
-
-    /*Return Car Stats
-     * Each below is sum of base car + component offsets
-    */
+    
+    //Return Car Stats
+    //Each below is sum of base car + component offsets
     public float CheckCost()
     {
         totalCost = baseCost + colour.cost + engine.cost + wheel.cost;
 
         return totalCost;
     }
+
     public float CheckTopSpeed()
     {
         float tSpeed = baseTopSpeed + colour.tSpeedOffset + engine.tSpeedOffset + wheel.tSpeedOffset;
 
         return tSpeed;
     }
+
     public float CheckAcceleration()
     {
         float acceleration = baseAccelertation + colour.accelOffset + engine.accelOffset + wheel.accelOffset;
 
         return acceleration;
     }
+
     public float CheckHandling()
     {
         float handling = baseHandling + colour.handlingOffset + engine.handlingOffset + wheel.handlingOffset;
@@ -406,3 +427,5 @@ class Wheel : Component
         handlingOffset = hOffset;
     }
 }
+
+#endregion

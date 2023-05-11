@@ -11,18 +11,21 @@ public class CameraScript : MonoBehaviour
     float cameraSpeed = 1f, toApply =.05f;
     bool bAutoRotate = true;
 
-    //Drag Camera Variables
+    /*Drag Camera Variables
     Vector3 ResetPoint;
+    */
 
     //OnStart bind Listener for CameraSlider
     private void Start()
     {
         CameraSlider.onValueChanged.AddListener(SliderChanged);
     }
+
     //Camera modifier in LateUpdate for good practice
     private void LateUpdate()
     {
-        //Mouse Down Camera Pan
+        /*  Code which would've been for Mouse Down Camera Pan
+         *  Didn't implement in the end but left here to show how I was going to do it
         if(Input.GetMouseButtonDown(1))
         {
             //AutoRotate Disable on Drag
@@ -34,11 +37,14 @@ public class CameraScript : MonoBehaviour
             Camera.main.gameObject.transform.localPosition = ResetPoint;
             bAutoRotate = true;
         }
+        */
+
         if (bAutoRotate)
         {
             transform.Rotate(0, toApply, 0);
         }
     }
+
     void SliderChanged(float val)
     {
         toApply = val * cameraSpeed;
