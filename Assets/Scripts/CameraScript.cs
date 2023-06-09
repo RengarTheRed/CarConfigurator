@@ -7,9 +7,11 @@ using UnityEngine.UI;
 public class CameraScript : MonoBehaviour
 {
     //Auto Rotate Variables
-    public Slider CameraSlider;
-    float cameraSpeed = 1f, toApply =.05f;
-    bool bAutoRotate = true;
+    public Slider cameraSlider;
+    public List<GameObject> cameras;
+    private int activeCamera = 1;
+    private float cameraSpeed = 1f;
+    private float toApply =.05f;
 
     /*Drag Camera Variables
     Vector3 ResetPoint;
@@ -18,31 +20,35 @@ public class CameraScript : MonoBehaviour
     //OnStart bind Listener for CameraSlider
     private void Start()
     {
-        CameraSlider.onValueChanged.AddListener(SliderChanged);
+        cameraSlider.onValueChanged.AddListener(SliderChanged);
     }
-
+    
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (activeCamera == cameras.Count-1)
+            {
+                ChangeActiveCamera(0);
+            }
+            else
+            {
+                ChangeActiveCamera(activeCamera+1);
+            }
+        }
+    }
+    
+    //Function for changing the active camera, disables current before activating new
+    public void ChangeActiveCamera(int newIndex)
+    {
+        cameras[activeCamera].SetActive(false);
+        activeCamera = newIndex;
+        cameras[activeCamera].SetActive(true);
+    }
     //Camera modifier in LateUpdate for good practice
     private void LateUpdate()
     {
-        /*  Code which would've been for Mouse Down Camera Pan
-         *  Didn't implement in the end but left here to show how I was going to do it
-        if(Input.GetMouseButtonDown(1))
-        {
-            //AutoRotate Disable on Drag
-            bAutoRotate = false;
-            ResetPoint = Camera.main.gameObject.transform.localPosition;
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            Camera.main.gameObject.transform.localPosition = ResetPoint;
-            bAutoRotate = true;
-        }
-        */
-
-        if (bAutoRotate)
-        {
-            transform.Rotate(0, toApply, 0);
-        }
+        transform.Rotate(0, toApply, 0);
     }
 
     void SliderChanged(float val)
